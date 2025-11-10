@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
-import chatRoutes from "./routes/chatRoute";
+import chatRoutes from "./routes/chatRoute.js";
+import userRouter from "./routes/userRoute.js";
 
 export const app = express();
 
@@ -14,3 +15,4 @@ app.get("/", (req, res) => {
 
 // Chat routes
 app.use("/chat", chatRoutes);
+app.use("/user",userRouter)
