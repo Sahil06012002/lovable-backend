@@ -1,11 +1,11 @@
 {
   "version": 2,
   "functions": {
-    "api/index.ts": {
+    "src/index.ts": {
       "runtime": "nodejs20.x"
     }
   },
   "routes": [
-    { "src": "/(.*)", "dest": "/api/index.ts" }
+    { "src": "/(.*)", "dest": "/src/index.ts" }
   ]
 }
