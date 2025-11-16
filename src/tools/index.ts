@@ -1,9 +1,12 @@
-import { Sandbox } from "@e2b/code-interpreter";
+import { Sandbox, type EntryInfo } from "@e2b/code-interpreter";
 import type { ToolSet } from "ai";
 import { z } from "zod";
 
-
-async function createFile(sandboxId: string, relativePath: string, fileContent: string) {
+async function createFile(
+  sandboxId: string,
+  relativePath: string,
+  fileContent: string
+) {
   const sb = await Sandbox.connect(sandboxId);
   const result = await sb.files.write(relativePath, fileContent);
   return result;
@@ -15,13 +18,15 @@ async function readFile(sandboxId: string, relativePath: string) {
   return fileContent;
 }
 
-async function updateFile(sandboxId: string, relativePath: string, newContent: string) {
+async function updateFile(
+  sandboxId: string,
+  relativePath: string,
+  newContent: string
+) {
   const sb = await Sandbox.connect(sandboxId);
   const result = await sb.files.write(relativePath, newContent);
   return result;
 }
-
-
 
 async function runCommand(sandboxId: string, command: string) {
   const sb = await Sandbox.connect(sandboxId);
@@ -29,7 +34,16 @@ async function runCommand(sandboxId: string, command: string) {
   return result;
 }
 
-//Sandbox ToolSet 
+async function listFilesInDirectory(
+  sandboxId: string,
+  path: string
+): Promise<EntryInfo[]> {
+  const sb = await Sandbox.connect(sandboxId);
+  const result = await sb.files.list(path);
+  return result;
+}
+
+//Sandbox ToolSet
 
 export const sandboxTools: ToolSet = {
   createFile: {
@@ -60,7 +74,9 @@ export const sandboxTools: ToolSet = {
     inputSchema: z.object({
       sandboxId: z.string().describe("Sandbox ID in which the file exists"),
       relativePath: z.string().describe("Relative path of the file to update"),
-      newContent: z.string().describe("New content to replace the existing file"),
+      newContent: z
+        .string()
+        .describe("New content to replace the existing file"),
     }),
     execute: async ({ sandboxId, relativePath, newContent }) => {
       return await updateFile(sandboxId, relativePath, newContent);
@@ -77,5 +93,17 @@ export const sandboxTools: ToolSet = {
       return await runCommand(sandboxId, command);
     },
   },
+  listFilesInDirectory: {
+    description:
+      "Retrieves a list of all files and subdirectories within the specified directory inside the sandbox",
+    inputSchema: z.object({
+      sandboxId: z.string().describe("Unique ID of the sandbox to search in"),
+      relativePath: z
+        .string()
+        .describe("Path of the target directory relative to the sandbox root"),
+    }),
+    execute: async ({ sandboxId, relativePath }) => {
+      return await listFilesInDirectory(sandboxId, relativePath);
+    },
+  },
 };
-

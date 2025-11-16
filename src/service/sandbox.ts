@@ -2,15 +2,29 @@ import { Sandbox } from "@e2b/code-interpreter";
 import dotenv from "dotenv";
 dotenv.config();
 
+const TEMPLATE_ID = "3yzgs8k38bgk44awmrlb";
+export async function createSandbox(): Promise<{
+  hostUrl: string;
+  sandboxId: string;
+}> {
+  try {
+    const sb: Sandbox = await Sandbox.create(TEMPLATE_ID, {
+      timeoutMs: 3_600_000,
+    });
+    const sandboxId = sb.sandboxId;
 
-const TEMPLATE_ID = ""
-export async function createSandbox() {
-  const sb: Sandbox = await Sandbox.create(TEMPLATE_ID);
-  const host = sb.getHost(5173)
-  
-  const hostUrl = `https://${host}`
+    const host = sb.getHost(5173);
 
-  return hostUrl;
+    const hostUrl = `https://${host}`;
+
+    return {
+      hostUrl: hostUrl,
+      sandboxId: sandboxId,
+    };
+  } catch (e) {
+    console.log(e);
+    throw e;
+  }
 }
 
 export async function executeCode(sb: Sandbox, code: string) {

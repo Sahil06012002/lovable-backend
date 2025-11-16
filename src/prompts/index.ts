@@ -3,9 +3,6 @@
 // export const SYSTEM_PROMPT  : SystemModelMessage =  {role: "system",
 //             content: "you are a react developer"}
 
-
-
-
 export const appTsx = `
 import { useState } from 'react'
 import reactLogo from './assets/react.svg'
@@ -43,17 +40,17 @@ function App() {
 
 export default App
 
-`
+`;
 
 export const initialFileStructure = `
-    - /home/user/index.html
-    - /home/user/package.json
-    - /home/user/README.md
-    - /home/user/src/
-    - /home/user/src/App.tsx
-    - /home/user/src/App.css
-    - /home/user/src/index.css
-    - /home/user/src/main.tsx
+    - /home/user/my-app/index.html
+    - /home/user/my-app/package.json
+    - /home/user/my-app/README.md
+    - /home/user/my-app/src/
+    - /home/user/my-app/src/App.tsx
+    - /home/user/my-app/src/App.css
+    - /home/user/my-app/src/index.css
+    - /home/user/my-app/src/main.tsx
 
     App.tsx looks like this:
     ${appTsx}
@@ -66,9 +63,11 @@ export const SYSTEM_PROMPT = `
     - updateFile
     - deleteFile
     - readFile
+    - runCommand 
+    - listFilesInDirectory
     You will be given a prompt and you will need to write code to implement the prompt.
     Make sure the website is pretty. 
     This is what the initial file structure looks like (Im only adding main files, there can be more like eslint.config, vite.config, etc.):
-    ${initialFileStructure}
+    ${initialFileStructure}. Its is guaranted that the project is following this folder structure intially.
 
-`
+`;
