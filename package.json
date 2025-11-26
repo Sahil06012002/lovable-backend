@@ -3,8 +3,9 @@
   "name": "lovable_backend",
   "version": "1.0.0",
   "main": "server.js",
- "scripts": {
+  "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "prebuild": "prisma generate",
     "build": "tsc",
     "start": "node dist/index.js"
   },
@@ -27,7 +28,7 @@
     "@types/cors": "^2.8.19",
     "@types/dotenv": "^8.2.3",
     "@types/express": "^5.0.5",
-    "@types/node": "^24.10.0",
+    "@types/node": "^24.10.1",
     "nodemon": "^3.1.10",
     "prisma": "^6.19.0",
     "ts-node": "^10.9.2",
